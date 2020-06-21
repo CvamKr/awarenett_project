@@ -25,10 +25,7 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       
-        backgroundColor:
-        
-            Colors.teal,
+        backgroundColor: Colors.teal,
         body: SingleChildScrollView(
           child: Container(
               height: MediaQuery.of(context).size.height,
@@ -54,11 +51,10 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
                           decoration: BoxDecoration(
                             color: Colors.black.withOpacity(0.75),
                             // Colors.white,
-                            borderRadius:
-                                BorderRadius.only(topRight: Radius.circular(60)),
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(60)),
                           ),
                         ))),
-
                 Positioned(
                     top: 135,
                     left: 10,
@@ -68,11 +64,13 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Container(
-                         width: 10,
-                         height: 55,
-                         color: Colors.white,
+                          width: 10,
+                          height: 55,
+                          color: Colors.white,
                         ),
-                        SizedBox(width: 10,),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Text(
                           "Awarenett",
                           style: TextStyle(
@@ -82,7 +80,6 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
                         ),
                       ],
                     )),
-
                 Positioned(
                   top: 280,
                   child: Container(
@@ -152,8 +149,8 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
                                     verifyPhone();
                                   },
                                   child: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 15, vertical: 10),
                                       child: Container(
                                           height: 50,
                                           width:
@@ -177,8 +174,6 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
                     ),
                   ),
                 ),
-
-           
               ])),
         ));
   }
@@ -217,9 +212,7 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
           });
           onAuthenticationSuccessful(value.user);
         } else {
-          setState(() {
-           
-          });
+          setState(() {});
         }
       }).catchError((e) {
         print(e.toString());
@@ -264,8 +257,7 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
 
   var otpController = TextEditingController();
   smsOtpDialog(BuildContext context) {
-    return
-        showDialog(
+    return showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -291,7 +283,7 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
                   });
                 }
                 print('opt dialog done clickedd');
-               
+
                 if (user != null) {
                   Navigator.pop(context);
 
@@ -300,7 +292,6 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
                   Navigator.pop(context);
                   signIn();
                 }
-
               },
             ),
           ],
@@ -374,8 +365,7 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
           Navigator.pop(context);
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) =>
-                MyEventsPage()),
+            MaterialPageRoute(builder: (context) => MyEventsPage()),
           );
         }
       }).catchError((e) {
@@ -386,5 +376,4 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
       Navigator.pop(context);
     }
   }
-
 }
