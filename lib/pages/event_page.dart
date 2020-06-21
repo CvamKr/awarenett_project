@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 import 'package:awarenett/pages/add_events_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,7 +26,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
   String eventTypeSelected = 'All';
 
   CollectionReference userProfileCollection =
-  Firestore.instance.collection('userProfile');
+      Firestore.instance.collection('userProfile');
 
   StreamSubscription<DocumentSnapshot> profileColSubscription;
 
@@ -40,7 +39,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
         print('profile data exists');
         setState(() {
           this.userInstituteLocation =
-          profileDataSnap.data['userInstituteLocation'];
+              profileDataSnap.data['userInstituteLocation'];
           this.userName = profileDataSnap.data['userName'];
         });
         getEventsData();
@@ -75,7 +74,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
       double currentScroll = _scrollController.position.pixels;
       double delta = MediaQuery.of(context).size.height * 0.25;
       if (maxScroll - currentScroll <= delta) {
-
         getEventsData();
       }
       // }
@@ -101,37 +99,39 @@ class _MyEventsPageState extends State<MyEventsPage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Text('AWARENETT',
+            Text(
+              'AWARENETT',
               style: TextStyle(
-                fontSize: 18,
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 2
-              ),),
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 2),
+            ),
             Padding(
-              padding: const EdgeInsets.only(left: 2.0, right: 2.0,top: 10),
-              child: Text('•',
-              style: TextStyle(
+              padding: const EdgeInsets.only(left: 2.0, right: 2.0, top: 10),
+              child: Text(
+                '•',
+                style: TextStyle(
                   fontSize: 20,
                   color: Colors.grey,
                 ),
               ),
             ),
-            Expanded(child: Padding(
-              padding: const EdgeInsets.only(top:4.0, left: 2),
-              child: Container(
-                width:
-                MediaQuery.of(context).size.width-170,
-
-                child: Text(this.userInstituteLocation,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                style: TextStyle(
-                  fontSize: 16,
-                    color: Colors.white,
-                  ),
-                ),
-              )),
+            Expanded(
+              child: Padding(
+                  padding: const EdgeInsets.only(top: 4.0, left: 2),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width - 170,
+                    child: Text(
+                      this.userInstituteLocation,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  )),
             )
           ],
         ),
@@ -142,27 +142,27 @@ class _MyEventsPageState extends State<MyEventsPage> {
             ),
             onTap: () {
               return showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text('Are you sure you want to log out?', textAlign: TextAlign.center,),
-                    content: FlatButton(
-                      padding: EdgeInsets.all(20),
-                      onPressed: () async{
-                        await FirebaseAuth.instance.signOut();
-                        Navigator.pop(context);
-                      },
-                      color: Colors.grey[200],
-                      child: Text('Logout'),
-                    )
-                  );
-                }
-              );
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                        title: Text(
+                          'Are you sure you want to log out?',
+                          textAlign: TextAlign.center,
+                        ),
+                        content: FlatButton(
+                          padding: EdgeInsets.all(20),
+                          onPressed: () async {
+                            await FirebaseAuth.instance.signOut();
+                            Navigator.pop(context);
+                          },
+                          color: Colors.grey[200],
+                          child: Text('Logout'),
+                        ));
+                  });
             },
           )
         ],
       ),
-
       body: Padding(
         padding: const EdgeInsets.only(bottom: 0.0),
         child: ListView(
@@ -178,14 +178,12 @@ class _MyEventsPageState extends State<MyEventsPage> {
                 children: <Widget>[
                   Container(
                     child: Column(
-                    children: <Widget>[
+                      children: <Widget>[
                         SizedBox(height: 5.0),
-
                         SizedBox(
                           height: 5.0,
                         ),
                         getSearchBar(),
-
                         SizedBox(
                           height: 6.0,
                         ),
@@ -196,32 +194,32 @@ class _MyEventsPageState extends State<MyEventsPage> {
                 ],
               ),
             ),
-
             SizedBox(
               height: 5.0,
             ),
-
             eventTypeSelected == 'searchQuery'
                 ? loadSearchList()
                 :
 //            loadEventsListt(),
-          loadEventsList()
+                loadEventsList()
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         elevation: 10,
-        onPressed: () => Navigator.push(context, MaterialPageRoute(
-          builder: (context) => MyAddEventPage()
-        )),
-        child: Icon(Icons.add, size: 30,),
+        onPressed: () => Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MyAddEventPage())),
+        child: Icon(
+          Icons.add,
+          size: 30,
+        ),
       ),
     );
   }
 
   Future reloadP2PList() async {
-    setState(() { 
+    setState(() {
       hasMore = true;
       products.clear();
       lastDocument = null;
@@ -236,7 +234,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
       stream: eventColRef
           .where('userInstituteLocation', isEqualTo: this.userInstituteLocation)
           .where('eventSearchQuery',
-          arrayContains: enteredSearchQuery.toLowerCase())
+              arrayContains: enteredSearchQuery.toLowerCase())
           .orderBy('serverTimeStamp', descending: true)
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -261,8 +259,8 @@ class _MyEventsPageState extends State<MyEventsPage> {
               itemBuilder: (context, index) {
                 if (index == 0) {
                   this.totalEventsCount =
-                  // snapshot.length;
-                  snapshot.data.documents.length;
+                      // snapshot.length;
+                      snapshot.data.documents.length;
                   // snapshot.data.documents.length;
 
                   return totalEventsCountTemplate(context, totalEventsCount);
@@ -271,8 +269,8 @@ class _MyEventsPageState extends State<MyEventsPage> {
                   return Container(height: 100);
                 } else {
                   DocumentSnapshot docSnap =
-                  // snapshot[index-1];
-                  snapshot.data.documents[index - 1];
+                      // snapshot[index-1];
+                      snapshot.data.documents[index - 1];
 //                  print('Snap length $totalEventsCount');
                   return _buildEventCard(docSnap);
                 }
@@ -289,7 +287,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
   bool isClicked = false;
   bool isShowDescriptionClicked = false;
   Widget _buildEventCard(doc) {
-
     return Padding(
         padding: EdgeInsets.only(top: 15, left: 10, right: 10),
         child: AnimatedContainer(
@@ -311,17 +308,22 @@ class _MyEventsPageState extends State<MyEventsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                AnimatedContainer(
-                  //image
-                  duration: Duration(seconds: 2),
-                  curve: Curves.easeOutSine,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10)),
-                    child: getImage(doc),
-                  ),
+                Container(
+                  width: MediaQuery.of(context).size.width - 20,
+                  child:
+                      Image.network(doc.data['eventImage'], fit: BoxFit.cover),
                 ),
+//                AnimatedContainer(
+//                  //image
+//                  duration: Duration(seconds: 2),
+//                  curve: Curves.easeOutSine,
+//                  child: ClipRRect(
+//                    borderRadius: BorderRadius.only(
+//                        topLeft: Radius.circular(10),
+//                        topRight: Radius.circular(10)),
+//                    child: getImage(doc),
+//                  ),
+//                ),
                 Padding(
                   padding: const EdgeInsets.only(
                       top: 8.0, left: 15.0, right: 14.0, bottom: 0.0),
@@ -329,14 +331,14 @@ class _MyEventsPageState extends State<MyEventsPage> {
                     children: <Widget>[
                       Expanded(
                           child: Container(
-                            // color: Colors.blue,
-                            child: Text(
-                              '${doc['eventName']}',
-                              style: TextStyle(
-                                fontSize: 16.0,
-                              ),
-                            ),
-                          )),
+                        // color: Colors.blue,
+                        child: Text(
+                          '${doc['eventName']}',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      )),
                       SizedBox(width: 16.0),
                       InkWell(
                         onTap: () {
@@ -377,9 +379,8 @@ class _MyEventsPageState extends State<MyEventsPage> {
                           ),
                         ),
                       ),
-
                       Padding(
-                        padding: const EdgeInsets.only(top:10.0),
+                        padding: const EdgeInsets.only(top: 10.0),
                         child: Text(
                           doc['club_organiserName'] == null
                               ? ''
@@ -387,7 +388,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
                           style: TextStyle(color: Colors.grey),
                         ),
                       ),
-
                     ],
                   ),
                   children: <Widget>[
@@ -405,25 +405,30 @@ class _MyEventsPageState extends State<MyEventsPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          doc['eventLink'] == null || doc['eventLink'] ==''? Container(): Expanded(
-                            child: IconButton(
-                              onPressed: () {
-                                openLink(doc['eventLink']);
-                              },
-                              icon: Icon(Icons.link),
-                            ),
-                          ),
+                          doc['eventLink'] == null || doc['eventLink'] == ''
+                              ? Container()
+                              : Expanded(
+                                  child: IconButton(
+                                    onPressed: () {
+                                      openLink(doc['eventLink']);
+                                    },
+                                    icon: Icon(Icons.link),
+                                  ),
+                                ),
 
                           Expanded(
                             child: IconButton(
                               onPressed: () {
                                 String contactNo =
-                                doc.data['club_organiserContactNo'];
+                                    doc.data['club_organiserContactNo'];
                                 debugPrint('phone no: $contactNo');
                                 if (contactNo == null || contactNo == '') {
-                                  final snackBar = SnackBar(content: Text('No contact number provided by the organiser.'));
+                                  final snackBar = SnackBar(
+                                      content: Text(
+                                          'No contact number provided by the organiser.'));
 
-                                  _scaffoldKey.currentState.showSnackBar(snackBar);
+                                  _scaffoldKey.currentState
+                                      .showSnackBar(snackBar);
 
                                   return;
                                 }
@@ -449,24 +454,24 @@ class _MyEventsPageState extends State<MyEventsPage> {
         builder: (BuildContext context) {
           return AlertDialog(
             shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             content: Container(
               width: MediaQuery.of(context).size.width,
               child: StreamBuilder<QuerySnapshot>(
                 stream:
-                // locationQuery
-                locationController.text == ''
-                    ? Firestore.instance
-                    .collection('institutesLocation')
-                    .orderBy('instituteLocation', descending: false)
-                    .snapshots()
-                    : Firestore.instance
-                    .collection('institutesLocation')
-                    .where('instituteLocationSearchQuery',
-                    arrayContains:
-                    locationController.text.toLowerCase())
-                // .orderBy('institutionName', descending: false)
-                    .snapshots(),
+                    // locationQuery
+                    locationController.text == ''
+                        ? Firestore.instance
+                            .collection('institutesLocation')
+                            .orderBy('instituteLocation', descending: false)
+                            .snapshots()
+                        : Firestore.instance
+                            .collection('institutesLocation')
+                            .where('instituteLocationSearchQuery',
+                                arrayContains:
+                                    locationController.text.toLowerCase())
+                            // .orderBy('institutionName', descending: false)
+                            .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (!snapshot.hasData) {
@@ -494,25 +499,25 @@ class _MyEventsPageState extends State<MyEventsPage> {
                         );
                       } else {
                         DocumentSnapshot institutionNameDoc =
-                        snapshot.data.documents[index - 1];
+                            snapshot.data.documents[index - 1];
 
                         String institutionName =
-                        institutionNameDoc.data['instituteLocation'];
+                            institutionNameDoc.data['instituteLocation'];
 
                         return ListTile(
-                          title:
-                          institutionName == null || institutionName == ''
+                          title: institutionName == null ||
+                                  institutionName == ''
                               ? Center(child: CircularProgressIndicator())
-                              :  Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(institutionName),
-                              ),
-                              Container(height: 1, color: Colors.grey)
-                            ],
-                          ),
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(institutionName),
+                                    ),
+                                    Container(height: 1, color: Colors.grey)
+                                  ],
+                                ),
                           onTap: () {
                             setState(() {
                               this.userInstituteLocation = institutionName;
@@ -601,16 +606,14 @@ class _MyEventsPageState extends State<MyEventsPage> {
         },
         child: Chip(
           backgroundColor: eventTypeSelected == clickedEventType
-              ?
-          Colors.black
-
+              ? Colors.black
               : Colors.black54.withOpacity(0.13),
           label: Text(
             clickedEventType,
             style: TextStyle(
-                color: eventTypeSelected == clickedEventType
-                    ? Colors.white
-                    : Colors.black,
+              color: eventTypeSelected == clickedEventType
+                  ? Colors.white
+                  : Colors.black,
             ),
           ),
         ),
@@ -699,10 +702,10 @@ class _MyEventsPageState extends State<MyEventsPage> {
   int documentLimit = 5; // documents to be fetched per request
 
   DocumentSnapshot
-  lastDocument; // flag for last document from where next 10 records to be fetched
+      lastDocument; // flag for last document from where next 10 records to be fetched
 
   ScrollController _scrollController =
-  ScrollController(); // listener for listview scrolling
+      ScrollController(); // listener for listview scrolling
   //pagination ends
 
   getEventsData() async {
@@ -728,7 +731,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
     if (eventTypeSelected == 'All') {
       query = eventColRef
           .where('userInstituteLocation', isEqualTo: this.userInstituteLocation)
-      // .orderBy('userInstituteLocation', descending: true);
+          // .orderBy('userInstituteLocation', descending: true);
           .orderBy('serverTimeStamp', descending: true);
     } else if (eventTypeSelected == 'searchQuery') {
       print(
@@ -763,15 +766,14 @@ class _MyEventsPageState extends State<MyEventsPage> {
       lastDocument = null;
     } else {
       lastDocument =
-      querySnapshot.documents[querySnapshot.documents.length - 1];
+          querySnapshot.documents[querySnapshot.documents.length - 1];
     }
     products.addAll(querySnapshot.documents);
-    if(this.mounted){
+    if (this.mounted) {
       setState(() {
         isLoading = false;
       });
     }
-
   }
 
   loadEventsListt() {
@@ -790,8 +792,8 @@ class _MyEventsPageState extends State<MyEventsPage> {
             itemBuilder: (context, index) {
               if (index == 0) {
                 this.totalEventsCount =
-                // snapshot.length;
-                products.length;
+                    // snapshot.length;
+                    products.length;
 
                 return totalEventsCountTemplate(context, totalEventsCount);
               }
@@ -799,8 +801,8 @@ class _MyEventsPageState extends State<MyEventsPage> {
                 return Container(height: 100);
               } else {
                 DocumentSnapshot docSnap =
-                // snapshot[index-1];
-                products[index - 1];
+                    // snapshot[index-1];
+                    products[index - 1];
 //                print('Snap length ${products.length}');
                 return _buildEventCard(docSnap);
               }
@@ -817,31 +819,28 @@ class _MyEventsPageState extends State<MyEventsPage> {
     return Firestore.instance
         .collection('events')
         .where('eventSearchQuery',
-        arrayContains: enteredSearchQuery.toLowerCase())
+            arrayContains: enteredSearchQuery.toLowerCase())
         .where('userInstituteLocation', isEqualTo: userInstituteLocation)
-    // .orderBy('eventSearchQuery', descending: false)
-    // .orderBy('userInstituteLocation', descending: false)
+        // .orderBy('eventSearchQuery', descending: false)
+        // .orderBy('userInstituteLocation', descending: false)
         .orderBy('serverTimeStamp', descending: true)
-     .snapshots();
+        .snapshots();
 
     // return Firestore.instance.collection('events').startAt(queryList).snapshots();
   }
 
   Widget totalEventsCountTemplate(BuildContext context, int length) {
-
     return Padding(
-      padding: const EdgeInsets.only(left: 12.0, top : 5, bottom: 5),
+      padding: const EdgeInsets.only(left: 12.0, top: 5, bottom: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Row(
             children: <Widget>[
-
               searchEventController.text.length >= 0 &&
-                  eventTypeSelected == 'searchQuery'
+                      eventTypeSelected == 'searchQuery'
                   ? Text('Search Result: ')
                   : Container(),
-
               Text(
                 length > 9 && length < 11 ? '+9' : '$length',
                 style: TextStyle(
@@ -859,15 +858,10 @@ class _MyEventsPageState extends State<MyEventsPage> {
               ),
             ],
           ),
-
-
-
         ],
       ),
     );
   }
-
-
 
   var features = '';
   void showBottomSheet(context) {
@@ -909,7 +903,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
         });
   }
 
-
   openLink(String eventLink) async {
     // bool _validURL = Uri.parse(eventLink).isAbsolute;
     // var url = eventLink;
@@ -922,7 +915,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
     } else {
       //throw 'Could not launch $url';
       debugPrint("can't launch");
-
     }
     // }
   }
@@ -953,49 +945,45 @@ class _MyEventsPageState extends State<MyEventsPage> {
         duration: Duration(milliseconds: 1000),
         curve:
 
-        // Curves.easeIn,
-        Curves.fastOutSlowIn,
+            // Curves.easeIn,
+            Curves.fastOutSlowIn,
         width: double.infinity,
 
         height: doc['eventImage'] == '' || doc['eventImage'] == 'eventImage'
             ? 0.0
             :
-        // isImageExpanded
-        //     ? tappedImage == doc['eventImage'] ? imageContainerHeight : 100.0
-        //     : 100.0,
+            // isImageExpanded
+            //     ? tappedImage == doc['eventImage'] ? imageContainerHeight : 100.0
+            //     : 100.0,
 
-        tappedImage == doc['eventImage']
-            ? isImageExpanded ? imageContainerHeight :200
-            :200,
+            tappedImage == doc['eventImage']
+                ? isImageExpanded ? imageContainerHeight : 200
+                : 200,
         // color: Colors.cyan,
         child: SizedBox(
           child: doc['eventImage'] == ''
               ? Container()
               : Stack(
-            children: <Widget>[
-              Center(child: CircularProgressIndicator()),
-              SizedBox.expand(
-                child: FadeInImage.memoryNetwork(
-                  placeholder:
-                  //  Image.network('http://entechdesigns.com/new_site/wp-content/themes/en-tech/images/not_available_icon.jpg'),
+                  children: <Widget>[
+                    Center(child: CircularProgressIndicator()),
+                    SizedBox.expand(
+                      child: FadeInImage.memoryNetwork(
+                        placeholder:
+                            //  Image.network('http://entechdesigns.com/new_site/wp-content/themes/en-tech/images/not_available_icon.jpg'),
 
-                  kTransparentImage,
-                  image: "${doc['eventImage']}",
-                  fit: tappedImage == doc['eventImage']
-                      ? isImageExpanded ? imagefit : BoxFit.cover
-                      : BoxFit.cover,
+                            kTransparentImage,
+                        image: "${doc['eventImage']}",
+                        fit: tappedImage == doc['eventImage']
+                            ? isImageExpanded ? imagefit : BoxFit.cover
+                            : BoxFit.cover,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-
         ),
       ),
     );
   }
-
-
-
 
   var searchEventController = TextEditingController();
   // var queryList = [''];
@@ -1022,7 +1010,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
             border: Border.all(
                 color:
 //                Colors.black,
-                Colors.transparent,
+                    Colors.transparent,
                 style: BorderStyle.solid,
                 width: 0.75),
           ),
@@ -1034,10 +1022,10 @@ class _MyEventsPageState extends State<MyEventsPage> {
               onChanged: (String enteredSearchQuery) {
                 setState(() {
                   this.eventTypeSelected =
-                  // searchEventController.text.length == 0
-                  //     ? this.eventTypeSelected = 'All'
-                  // :
-                  'searchQuery';
+                      // searchEventController.text.length == 0
+                      //     ? this.eventTypeSelected = 'All'
+                      // :
+                      'searchQuery';
                   this.enteredSearchQuery = enteredSearchQuery;
                 });
               },
@@ -1078,9 +1066,9 @@ class _MyEventsPageState extends State<MyEventsPage> {
           onChanged: (enteredLocation) {
             setState(() {
               this.locationQuery =
-              // locationController.text == '' ? ''
-              // :
-              enteredLocation;
+                  // locationController.text == '' ? ''
+                  // :
+                  enteredLocation;
             });
             print('locatinQuery = $locationQuery');
           },
