@@ -42,7 +42,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
               profileDataSnap.data['userInstituteLocation'];
           this.userName = profileDataSnap.data['userName'];
         });
-        getEventsData();
       } else {
         print('profile data does not exist');
       }
@@ -54,7 +53,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
     super.initState();
     print('event page initState');
 
-    _scrollController = ScrollController();
 
     try {
       FirebaseAuth.instance.currentUser().then((onlineUser) {
@@ -69,20 +67,11 @@ class _MyEventsPageState extends State<MyEventsPage> {
       print(e.toString());
     }
 
-    _scrollController.addListener(() {
-      double maxScroll = _scrollController.position.maxScrollExtent;
-      double currentScroll = _scrollController.position.pixels;
-      double delta = MediaQuery.of(context).size.height * 0.25;
-      if (maxScroll - currentScroll <= delta) {
-        getEventsData();
-      }
-      // }
-    });
+
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
     profileColSubscription?.cancel();
     locationController?.dispose();
     searchEventController?.dispose();
@@ -166,7 +155,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
       body: Padding(
         padding: const EdgeInsets.only(bottom: 0.0),
         child: ListView(
-          controller: _scrollController,
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
           children: <Widget>[
@@ -181,7 +169,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
                       children: <Widget>[
                         SizedBox(height: 5.0),
                         SizedBox(
-                          height: 5.0,
+                          height: 10.0,
                         ),
                         getSearchBar(),
                         SizedBox(
@@ -218,16 +206,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
     );
   }
 
-  Future reloadP2PList() async {
-    setState(() {
-      hasMore = true;
-      products.clear();
-      lastDocument = null;
 
-      getEventsData();
-      loadEventsListt();
-    });
-  }
 
   loadSearchList() {
     return StreamBuilder<QuerySnapshot>(
@@ -296,7 +275,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(0),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(.12),
@@ -309,21 +288,16 @@ class _MyEventsPageState extends State<MyEventsPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+
+                  ),
                   width: MediaQuery.of(context).size.width - 20,
                   child:
                       Image.network(doc.data['eventImage'], fit: BoxFit.cover),
                 ),
-//                AnimatedContainer(
-//                  //image
-//                  duration: Duration(seconds: 2),
-//                  curve: Curves.easeOutSine,
-//                  child: ClipRRect(
-//                    borderRadius: BorderRadius.only(
-//                        topLeft: Radius.circular(10),
-//                        topRight: Radius.circular(10)),
-//                    child: getImage(doc),
-//                  ),
-//                ),
+
                 Padding(
                   padding: const EdgeInsets.only(
                       top: 8.0, left: 15.0, right: 14.0, bottom: 0.0),
@@ -522,7 +496,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
                             setState(() {
                               this.userInstituteLocation = institutionName;
                               this.locationQuery = '';
-                              reloadP2PList();
                               Navigator.pop(context);
                               print('locationquery = $locationQuery');
                             });
@@ -602,7 +575,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
             this.searchEventController.text = '';
           });
 
-          reloadP2PList();
         },
         child: Chip(
           backgroundColor: eventTypeSelected == clickedEventType
@@ -704,114 +676,10 @@ class _MyEventsPageState extends State<MyEventsPage> {
   DocumentSnapshot
       lastDocument; // flag for last document from where next 10 records to be fetched
 
-  ScrollController _scrollController =
-      ScrollController(); // listener for listview scrolling
+// listener for listview scrolling
   //pagination ends
 
-  getEventsData() async {
-    print('get product called');
-    if (!hasMore) {
-      print('has more = $hasMore');
-      return;
-    }
-    if (isLoading) {
-      print('isLoading = $isLoading');
 
-      return;
-    }
-    setState(() {
-      isLoading = true;
-      print('isLoadinggg= $isLoading');
-      print(
-          'inside get products. GiaTypeSeleceted = ${this.eventTypeSelected}');
-    });
-
-    print('inside get products. GiaTypeSeleceted = ${this.eventTypeSelected}');
-    Query query;
-    if (eventTypeSelected == 'All') {
-      query = eventColRef
-          .where('userInstituteLocation', isEqualTo: this.userInstituteLocation)
-          // .orderBy('userInstituteLocation', descending: true);
-          .orderBy('serverTimeStamp', descending: true);
-    } else if (eventTypeSelected == 'searchQuery') {
-      print(
-          'inside get products. GiaTypeSeleceted = ${this.eventTypeSelected}');
-      setState(() {
-        isLoading = false;
-      });
-      // query = searchQuery();
-      return;
-    } else {
-      print(
-          'inside get products. GiaTypeSeleceted = ${this.eventTypeSelected}');
-
-      query = queryEventsByCategory();
-    }
-
-    QuerySnapshot querySnapshot;
-    if (lastDocument == null) {
-      querySnapshot = await query.limit(10).getDocuments();
-    } else {
-      querySnapshot = await query
-          .startAfterDocument(lastDocument)
-          .limit(documentLimit)
-          .getDocuments();
-
-      print(1);
-    }
-    if (querySnapshot.documents.length < documentLimit) {
-      hasMore = false;
-    }
-    if (querySnapshot.documents.length - 1 < 0) {
-      lastDocument = null;
-    } else {
-      lastDocument =
-          querySnapshot.documents[querySnapshot.documents.length - 1];
-    }
-    products.addAll(querySnapshot.documents);
-    if (this.mounted) {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
-  loadEventsListt() {
-    return Padding(
-      padding: const EdgeInsets.all(0.0),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0)),
-        ),
-        child: Container(
-          child: ListView.builder(
-            physics: ClampingScrollPhysics(),
-            //  controller: _scrollController,
-            itemCount: products.length + 2,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              if (index == 0) {
-                this.totalEventsCount =
-                    // snapshot.length;
-                    products.length;
-
-                return totalEventsCountTemplate(context, totalEventsCount);
-              }
-              if (index == totalEventsCount + 1) {
-                return Container(height: 100);
-              } else {
-                DocumentSnapshot docSnap =
-                    // snapshot[index-1];
-                    products[index - 1];
-//                print('Snap length ${products.length}');
-                return _buildEventCard(docSnap);
-              }
-            },
-          ),
-        ),
-      ),
-    );
-  }
 
   searchQuery() {
     print('searching query');

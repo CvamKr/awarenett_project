@@ -99,10 +99,10 @@ class _MyAddEventPageState extends State<MyAddEventPage> {
         setState(() {
           this.userName = profileDataSnap.data['userName'];
 
-          clubOrganiserNameController.text = this.clubOrganiserName =
-              profileDataSnap.data['club_organiserName'] == null
-                  ? ''
-                  : profileDataSnap['club_organiserName'];
+//          clubOrganiserNameController.text = this.clubOrganiserName =
+//              profileDataSnap.data['club_organiserName'] == null
+//                  ? ''
+//                  : profileDataSnap['club_organiserName'];
           this.fetchedclubOrganiserName = clubOrganiserName;
           this.userInstituteLocation =
               profileDataSnap.data['userInstituteLocation'];
@@ -447,33 +447,55 @@ class _MyAddEventPageState extends State<MyAddEventPage> {
                           ),
                           // club_organiserName == null || club_organiserName == ''
 
-                          fetchedclubOrganiserName == null ||
-                                  fetchedclubOrganiserName == ''
-                              ? Expanded(
-                                  child: TextFormField(
-                                    // club_organiserName,
-                                    validator: (value) {
-                                      setState(() {
-                                        this.clubOrganiserName = value;
-                                      });
-                                      if (value.isEmpty)
-                                        return 'Required';
-                                      else
-                                        return null;
-                                    },
-                                    controller: clubOrganiserNameController,
 
-                                    decoration: InputDecoration(
-                                        hintText: 'Write your Club Name'),
-                                  ),
-                                  flex: 2,
-                                )
-                              : Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    clubOrganiserName,
-                                    style: TextStyle(fontSize: 16.0),
-                                  )),
+                              Expanded(
+                            child: TextFormField(
+                              // club_organiserName,
+                              validator: (value) {
+                                setState(() {
+                                  this.clubOrganiserName = value;
+                                });
+                                if (value.isEmpty)
+                                  return 'Required';
+                                else
+                                  return null;
+                              },
+                              controller: clubOrganiserNameController,
+
+                              decoration: InputDecoration(
+                                  hintText: 'Write your Club Name'),
+                            ),
+                            flex: 2,
+                          )
+
+
+//                          fetchedclubOrganiserName == null ||
+//                                  fetchedclubOrganiserName == ''
+//                              ? Expanded(
+//                                  child: TextFormField(
+//                                    // club_organiserName,
+//                                    validator: (value) {
+//                                      setState(() {
+//                                        this.clubOrganiserName = value;
+//                                      });
+//                                      if (value.isEmpty)
+//                                        return 'Required';
+//                                      else
+//                                        return null;
+//                                    },
+//                                    controller: clubOrganiserNameController,
+//
+//                                    decoration: InputDecoration(
+//                                        hintText: 'Write your Club Name'),
+//                                  ),
+//                                  flex: 2,
+//                                )
+//                              : Expanded(
+//                                  flex: 2,
+//                                  child: Text(
+//                                    clubOrganiserName,
+//                                    style: TextStyle(fontSize: 16.0),
+//                                  )),
                         ],
                       ),
                     ),
