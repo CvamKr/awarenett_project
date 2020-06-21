@@ -1,6 +1,6 @@
 
 import 'package:awarenett/pages/event_page.dart';
-import 'package:awarenett/widgets/yozznett_logo_screen.dart';
+import 'package:awarenett/widgets/awarenett_logo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

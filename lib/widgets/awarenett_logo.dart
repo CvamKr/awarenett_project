@@ -18,16 +18,15 @@ class MyYozznetLogo extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Yozznet',
+                  'Awarenett',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 50.0,
                   ),
                 ),
-                Text(
+                Text('',
 //                'An app for all your college needs',
-                  'Enriching your college experience.',
 
 //                'enriching college experience',
                   style: TextStyle(fontSize: 22.0, color: Colors.white, ),
