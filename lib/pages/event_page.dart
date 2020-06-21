@@ -1,6 +1,7 @@
 import 'dart:async';
 
 
+import 'package:awarenett/pages/add_events_page.dart';
 import 'package:awarenett/widgets/dialogs.dart';
 import 'package:awarenett/widgets/done_tag.dart';
 import 'package:awarenett/widgets/passcode_widget.dart';
@@ -338,9 +339,12 @@ class _MyEventsPageState extends State<MyEventsPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.teal,
-        onPressed: _scrollToTop,
-        child: Icon(Icons.arrow_upward),
+        backgroundColor: Colors.black,
+        elevation: 10,
+        onPressed: () => Navigator.push(context, MaterialPageRoute(
+          builder: (context) => MyAddEventPage()
+        )),
+        child: Icon(Icons.add, size: 30,),
       ),
 
       // _getEventsList(),

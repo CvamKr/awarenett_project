@@ -273,8 +273,9 @@ class _MyAddEventPageState extends State<MyAddEventPage> {
         key: _scaffoldKey,
         // backgroundColor: Colors.grey[200],
         appBar: AppBar(
-          backgroundColor: Colors.teal,
-          title: Text('Add Event'),
+          backgroundColor: Colors.black,
+          title: Text('ADD EVENT'),
+          centerTitle: true,
         ),
         body: isUploading ? showProgressScreen() : bodyContent());
   }
@@ -525,7 +526,7 @@ class _MyAddEventPageState extends State<MyAddEventPage> {
             isUploading
                 ? Center(child: CircularProgressIndicator())
                 : RaisedButton(
-                    color: Colors.teal,
+                    color: Colors.black54,
                     child: Text('Post Event',
                         style: TextStyle(color: Colors.white)),
                     onPressed: () {
@@ -741,7 +742,7 @@ class _MyAddEventPageState extends State<MyAddEventPage> {
               // Colors.grey[300],
               // chipColor,
               eventTypeSelected == clickedEventType
-                  ? Colors.teal.withOpacity(.8)
+                  ? Colors.black
                   : Colors.grey[300]
           // chipColor
           ),
