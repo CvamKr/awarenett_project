@@ -790,7 +790,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
           // Colors.blue
           Colors.black
 
-              : Colors.black54.withOpacity(0.2),
+              : Colors.black54.withOpacity(0.13),
           label: Text(
             clickedEventType,
             style: TextStyle(
@@ -1347,13 +1347,13 @@ class _MyEventsPageState extends State<MyEventsPage> {
                 style: BorderStyle.solid,
                 width: 0.75),
 
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(.15),
-                offset: Offset(0, 10),
-                blurRadius: 8,
-              )
-            ],
+//            boxShadow: [
+//              BoxShadow(
+//                color: Colors.black.withOpacity(.15),
+//                offset: Offset(0, 10),
+//                blurRadius: 8,
+//              )
+//            ],
           ),
 
           // child: Row(
