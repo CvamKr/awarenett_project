@@ -124,25 +124,39 @@ class _MyEventsPageState extends State<MyEventsPage> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Text('EVENTS', 
+            Text('AWARENETT',
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 2
               ),),
-            Text('•', 
-            style: TextStyle(
-                fontSize: 27,
-                color: Colors.grey,
+            Padding(
+              padding: const EdgeInsets.only(left: 2.0, right: 2.0,top: 10),
+              child: Text('•',
+              style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.grey,
+                ),
               ),
             ),
-            Text('ABCD Institute of Technology',
-            style: TextStyle(
-                fontSize: 17,
-                color: Colors.white,
+            Padding(
+              padding: const EdgeInsets.only(top:4.0, left: 2),
+              child: Container(
+                width:
+//                200,
+                MediaQuery.of(context).size.width-170,
+
+                child: Text('Manipal Institute of Technology',
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: TextStyle(
+                  fontSize: 16,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             )
           ],
