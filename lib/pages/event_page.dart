@@ -120,6 +120,33 @@ class _MyEventsPageState extends State<MyEventsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Text('EVENTS', 
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 2
+              ),),
+            Text('•', 
+            style: TextStyle(
+                fontSize: 27,
+                color: Colors.grey,
+              ),
+            ),
+            Text('ABCD Institute of Technology',
+            style: TextStyle(
+                fontSize: 17,
+                color: Colors.white,
+              ),
+            )
+          ],
+        )
+      ),
       // backgroundColor:
       //  Colors.white,
       // Colors.grey[50],
@@ -161,90 +188,91 @@ class _MyEventsPageState extends State<MyEventsPage> {
                       // ),
                       //
                     ),
+                    //-----------------------------------------------
                     child: Column(
-                      children: <Widget>[
-                        SizedBox(height: 10.0),
-                        Material(
-                            elevation: 2.0,
-                            child: Container(
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 16.0, bottom: 0),
-                                      child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          'Institute Location',
-                                          style: TextStyle(
-                                            color: textColor,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        InkWell(
-                                          onTap: () {
-                                            openInstitutionDialogBox();
-                                          },
-                                          child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                            children: <Widget>[
-                                              Padding(
-                                                padding: const EdgeInsets.symmetric(
-                                                    horizontal: 10.0),
-                                                child: Icon(
-                                                  Icons.expand_more,
-                                                  size: 20.0,
-                                                  color: Colors.black,
+                    children: <Widget>[
+                        SizedBox(height: 5.0),
+                    //     Material(
+                    //         elevation: 2.0,
+                    //         child: Container(
+                    //             child: Column(
+                    //               children: <Widget>[
+                    //                 Padding(
+                    //                   padding: const EdgeInsets.only(
+                    //                       left: 16.0, bottom: 0),
+                    //                   child: Align(
+                    //                     alignment: Alignment.centerLeft,
+                    //                     child: Text(
+                    //                       'Institute Location',
+                    //                       style: TextStyle(
+                    //                         color: textColor,
+                    //                       ),
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //                 Row(
+                    //                   mainAxisAlignment:
+                    //                   MainAxisAlignment.spaceBetween,
+                    //                   children: <Widget>[
+                    //                     InkWell(
+                    //                       onTap: () {
+                    //                         openInstitutionDialogBox();
+                    //                       },
+                    //                       child: Row(
+                    //                         mainAxisAlignment:
+                    //                         MainAxisAlignment.start,
+                    //                         children: <Widget>[
+                    //                           Padding(
+                    //                             padding: const EdgeInsets.symmetric(
+                    //                                 horizontal: 10.0),
+                    //                             child: Icon(
+                    //                               Icons.expand_more,
+                    //                               size: 20.0,
+                    //                               color: Colors.black,
 
-                                                  // Colors.white,
-                                                ),
-                                              ),
-                                              Container(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width -
-                                                    100,
-                                                child: Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 0.0),
-                                                  child: Text(
-                                                    // 'Mit Manipal',
-                                                    this.userInstituteLocation,
-                                                    overflow: TextOverflow.ellipsis,
-                                                    maxLines: 1,
-                                                    style: TextStyle(
-                                                        fontSize: 17.0,
-                                                        color: textColor),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        IconButton(
-                                          icon: Icon(Icons.add_circle),
-                                          onPressed: () {
-                                            _myPasscodeWidget.showClubCodeDialog(
-                                                context, _scaffoldKey);
+                    //                               // Colors.white,
+                    //                             ),
+                    //                           ),
+                    //                           Container(
+                    //                             width: MediaQuery.of(context)
+                    //                                 .size
+                    //                                 .width -
+                    //                                 100,
+                    //                             child: Padding(
+                    //                               padding: EdgeInsets.symmetric(
+                    //                                   horizontal: 0.0),
+                    //                               child: Text(
+                    //                                 // 'Mit Manipal',
+                    //                                 this.userInstituteLocation,
+                    //                                 overflow: TextOverflow.ellipsis,
+                    //                                 maxLines: 1,
+                    //                                 style: TextStyle(
+                    //                                     fontSize: 17.0,
+                    //                                     color: textColor),
+                    //                               ),
+                    //                             ),
+                    //                           ),
+                    //                         ],
+                    //                       ),
+                    //                     ),
+                    //                     IconButton(
+                    //                       icon: Icon(Icons.add_circle),
+                    //                       onPressed: () {
+                    //                         _myPasscodeWidget.showClubCodeDialog(
+                    //                             context, _scaffoldKey);
 
-                                            //  showClubCodeDialog(context);
-                                          },
-                                        )
-                                      ],
-                                    ),
-                                    // SizedBox(
-                                    //   height: 10,
-                                    // )
-                                  ],
-                                ))),
-                        SizedBox(height: 15.0),
-
+                    //                         //  showClubCodeDialog(context);
+                    //                       },
+                    //                     )
+                    //                   ],
+                    //                 ),
+                    //                 // SizedBox(
+                    //                 //   height: 10,
+                    //                 // )
+                    //               ],
+                    //             ))),
+                        //SizedBox(height: 15.0),
+                                //---------------------------------
                         // Align(
                         //   alignment: Alignment.topLeft,
                         //   child: Padding(
@@ -756,15 +784,15 @@ class _MyEventsPageState extends State<MyEventsPage> {
           backgroundColor: eventTypeSelected == clickedEventType
               ?
           // Colors.blue
-          Colors.teal.withOpacity(.8)
+          Colors.black
 
-              : Colors.grey[300],
+              : Colors.black54.withOpacity(0.2),
           label: Text(
             clickedEventType,
             style: TextStyle(
                 color: eventTypeSelected == clickedEventType
                     ? Colors.white
-                    : Colors.black
+                    : Colors.black,
               // Colors.blue[400],
               //  Colors.blue,
             ),
