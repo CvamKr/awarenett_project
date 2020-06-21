@@ -10,7 +10,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
 class MyEventsPage extends StatefulWidget {
   MyEventsPage({Key key}) : super(key: key);
 
@@ -21,7 +20,6 @@ class MyEventsPage extends StatefulWidget {
 class _MyEventsPageState extends State<MyEventsPage> {
   // widget.currentInstitutionName = '';
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
 
   int totalEventsCount = 0;
   var userName = '';
@@ -78,11 +76,26 @@ class _MyEventsPageState extends State<MyEventsPage> {
       print(e.toString());
     }
 
+    _scrollController.addListener(() {
+      double maxScroll = _scrollController.position.maxScrollExtent;
+      double currentScroll = _scrollController.position.pixels;
+      double delta = MediaQuery.of(context).size.height * 0.25;
+      if (maxScroll - currentScroll <= delta) {
+//        if(mounted){
+//          getEventsData();
+//
+//        }
+        getEventsData();
+      }
+      // }
+    });
   }
 
   @override
   void dispose() {
+    _scrollController.dispose();
     profileColSubscription?.cancel();
+    locationController?.dispose();
     searchEventController?.dispose();
 
     super.dispose();
@@ -90,11 +103,17 @@ class _MyEventsPageState extends State<MyEventsPage> {
 
   // bool _isOnTop = true;
 
+  _scrollToTop() {
+    _scrollController.animateTo(_scrollController.position.minScrollExtent,
+        duration: Duration(milliseconds: 1000), curve: Curves.easeIn);
+    // setState(() => _isOnTop = true);
+  }
+
+  List list = ['logout'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-//      backgroundColor: Colors.blueGrey.withOpacity(.8),
       key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -117,8 +136,8 @@ class _MyEventsPageState extends State<MyEventsPage> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top:4.0),
+            Expanded(child: Padding(
+              padding: const EdgeInsets.only(top:4.0, left: 2),
               child: Container(
                 width:
 //                200,
@@ -132,12 +151,45 @@ class _MyEventsPageState extends State<MyEventsPage> {
                     color: Colors.white,
                   ),
                 ),
-              ),
+              )),
             )
           ],
-        )
+        ),
+        actions: <Widget>[
+          GestureDetector(
+            child: Icon(
+              Icons.more_vert,
+            ),
+            onTap: () {
+              return showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Are you sure you want to log out?', textAlign: TextAlign.center,),
+                    content: FlatButton(
+                      padding: EdgeInsets.all(20),
+                      onPressed: () async{
+                        await FirebaseAuth.instance.signOut();
+                        Navigator.pop(context);
+                      },
+                      color: Colors.grey[200],
+                      child: Text('Logout'),
+                    )
+                  );
+                }
+              );
+            },
+          )
+        ],
       ),
-
+      // backgroundColor:
+      //  Colors.white,
+      // Colors.grey[50],
+      // Colors.teal[50],
+      // Colors.blue[50].
+      // withOpacity(.6),
+      // Colors.blue[100].withOpacity(.2),
+      // appBar: AppBar(
 
       body: Padding(
         padding: const EdgeInsets.only(bottom: 0.0),
@@ -155,13 +207,36 @@ class _MyEventsPageState extends State<MyEventsPage> {
                   Container(
                     // color: Colors.blue[400].withOpacity(.8),
                     decoration: BoxDecoration(
-
+                      // color:
+                      // Colors.grey[100],
+                      // Colors.white,
+                      //  Colors.blue[100]
+                      //  .withOpacity(.2),
+                      // Colors.blue[50],
+                      // Colors.teal[100],
+                      // use here Colors.white, and in the scaffold-> backgroundColor: Colors.blueGrey[50],
+                      // borderRadius: new BorderRadius.only(
+                      //   // topLeft: new Radius.circular(20.0),
+                      //   //topRight: new Radius.circular(20.0),
+                      //   //bottomRight: new Radius.circular(20.0),
+                      //   bottomLeft: new Radius.circular(30.0),
+                      // ),
+                      //
                     ),
-                    //-----------------------------------------------
                     child: Column(
                     children: <Widget>[
                         SizedBox(height: 5.0),
-
+                        // Align(
+                        //   alignment: Alignment.topLeft,
+                        //   child: Padding(
+                        //     padding:
+                        //         const EdgeInsets.symmetric(horizontal: 12.0),
+                        //     child: Text(
+                        //       'Sort Events',
+                        //       style: TextStyle(fontSize: 16.0),
+                        //     ),
+                        //   ),
+                        // ),
 
                         SizedBox(
                           height: 5.0,
@@ -182,14 +257,36 @@ class _MyEventsPageState extends State<MyEventsPage> {
             SizedBox(
               height: 5.0,
             ),
+            // Align(
+            //   alignment: Alignment.centerRight,
+            //   child: FlatButton(
+            //       onPressed: () {
+            //         // showBottomSheet(context);
+            //         // buildSuggestionBox(context);
+            //         _showDialog();
+            //       },
+            //       child: Text(
+            //         "drop a suggestion!",
+            //         style: TextStyle(
+            //           color: Colors.blue,
+            //           fontStyle: FontStyle.italic,
+            //         ),
+            //       )),
+            // ),
 
             eventTypeSelected == 'searchQuery'
                 ? loadSearchList()
-                :
+                : loadEventsListt(),
 
-             loadEventsList(),
+            // loadEventsList(),
 
-
+            // _buildLostAndFoundTemplate(),
+            // SizedBox(height: 7.0),
+            // _buildLostAndFoundTemplate(),
+            // SizedBox(height: 7.0),
+            // _buildLostAndFoundTemplate(),
+            // SizedBox(height: 7.0),
+            // _buildLostAndFoundTemplate(),
           ],
         ),
       ),
@@ -206,6 +303,26 @@ class _MyEventsPageState extends State<MyEventsPage> {
     );
   }
 
+  Future reloadP2PList() async {
+    setState(() {
+      // isLoading = true;
+      // if (giaTypeSelected != 'searchQuery') {
+      hasMore = true;
+      products.clear();
+      lastDocument = null;
+
+//      if(mounted){
+//        getEventsData();
+//        loadEventsListt();
+//
+//      }
+
+      getEventsData();
+      loadEventsListt();
+
+      // }
+    });
+  }
 
   loadSearchList() {
     // reloadP2PList();
@@ -291,13 +408,13 @@ class _MyEventsPageState extends State<MyEventsPage> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
-//              boxShadow: [
-//                BoxShadow(
-//                  color: Colors.black.withOpacity(.12),
-//                  offset: Offset(0, 10),
-//                  blurRadius: 8,
-//                )
-//              ],
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(.12),
+                  offset: Offset(0, 10),
+                  blurRadius: 8,
+                )
+              ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -322,6 +439,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
                 // SizedBox(
                 //   height: 5,
                 // ),
+                //doneTag.getDoneTag(doc),
                 Padding(
                   padding: const EdgeInsets.only(
                       top: 8.0, left: 15.0, right: 14.0, bottom: 0.0),
@@ -352,7 +470,16 @@ class _MyEventsPageState extends State<MyEventsPage> {
                       //     ),
                       //   ),
                       // ),
-
+                      InkWell(
+                        onTap: () {
+                          // dialogs.showReportDialog(
+                          //     eventColRef, context, doc.documentID);
+                        },
+                        child: Icon(
+                          Icons.more_vert,
+                          color: Colors.grey,
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -450,6 +577,95 @@ class _MyEventsPageState extends State<MyEventsPage> {
             )));
   }
 
+  openInstitutionDialogBox() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            content: Container(
+              width: MediaQuery.of(context).size.width,
+              child: StreamBuilder<QuerySnapshot>(
+                stream:
+                // locationQuery
+                locationController.text == ''
+                    ? Firestore.instance
+                    .collection('institutesLocation')
+                    .orderBy('instituteLocation', descending: false)
+                    .snapshots()
+                    : Firestore.instance
+                    .collection('institutesLocation')
+                    .where('instituteLocationSearchQuery',
+                    arrayContains:
+                    locationController.text.toLowerCase())
+                // .orderBy('institutionName', descending: false)
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    // : the data is not ready, show a loading indicator
+
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    // : do something with the error
+                    return Text(snapshot.error.toString());
+                  }
+                  // : do something with the data
+
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data.documents.length + 1,
+                    itemBuilder: (BuildContext context, int index) {
+                      var length = snapshot.data.documents.length;
+                      print('in listbuilder , length = $length');
+                      if (index == 0) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: getCurrentLocationTemplate(length),
+                        );
+                      } else {
+                        DocumentSnapshot institutionNameDoc =
+                        snapshot.data.documents[index - 1];
+
+                        String institutionName =
+                        institutionNameDoc.data['instituteLocation'];
+
+                        return ListTile(
+                          title:
+                          institutionName == null || institutionName == ''
+                              ? Center(child: CircularProgressIndicator())
+                              :  Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(institutionName),
+                              ),
+                              Container(height: 1, color: Colors.grey)
+                            ],
+                          ),
+                          onTap: () {
+                            setState(() {
+                              this.userInstituteLocation = institutionName;
+                              this.locationQuery = '';
+                              reloadP2PList();
+                              Navigator.pop(context);
+                              print('locationquery = $locationQuery');
+                            });
+                          },
+                        );
+                      }
+                    },
+                  );
+                },
+              ),
+            ),
+          );
+        });
+  }
 
   Widget getEventsCategory(context) {
     return Padding(
@@ -517,6 +733,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
             this.searchEventController.text = '';
           });
 
+          reloadP2PList();
         },
         child: Chip(
           backgroundColor: eventTypeSelected == clickedEventType
@@ -547,8 +764,8 @@ class _MyEventsPageState extends State<MyEventsPage> {
         .collection('events')
         .where('userInstituteLocation', isEqualTo: userInstituteLocation)
         .where('eventType', isEqualTo: eventTypeSelected)
-        .orderBy('serverTimeStamp', descending: true)
-     .snapshots();
+        .orderBy('serverTimeStamp', descending: true);
+    // .snapshots();
 
     //   .listen((query){
     // print('query on $giaType done. ${query.documents.length} $giaType');
@@ -719,6 +936,57 @@ class _MyEventsPageState extends State<MyEventsPage> {
 
   }
 
+  loadEventsListt() {
+    return Padding(
+      padding: const EdgeInsets.all(0.0),
+      child: Container(
+        decoration: BoxDecoration(
+          // color:
+          //  Colors.blue[50],
+          // Colors.teal[50],
+          // Colors.white,
+          // Colors.blueGrey[100].withOpacity(0.1),
+          // giaListCardColor,
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.black.withOpacity(.12),
+          //     offset: Offset(0, 10),
+          //     blurRadius: 30,
+          //   )
+          // ],
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0)),
+        ),
+        child: Container(
+          // width: 200.0,
+          // height: 400.0,
+          child: ListView.builder(
+            physics: ClampingScrollPhysics(),
+            //  controller: _scrollController,
+            itemCount: products.length + 2,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                this.totalEventsCount =
+                // snapshot.length;
+                products.length;
+
+                return totalEventsCountTemplate(context, totalEventsCount);
+              }
+              if (index == totalEventsCount + 1) {
+                return Container(height: 100);
+              } else {
+                DocumentSnapshot docSnap =
+                // snapshot[index-1];
+                products[index - 1];
+//                print('Snap length ${products.length}');
+                return _buildEventCard(docSnap);
+              }
+            },
+          ),
+        ),
+      ),
+    );
+  }
 
   searchQuery() {
     print('searching query');
@@ -730,8 +998,8 @@ class _MyEventsPageState extends State<MyEventsPage> {
         .where('userInstituteLocation', isEqualTo: userInstituteLocation)
     // .orderBy('eventSearchQuery', descending: false)
     // .orderBy('userInstituteLocation', descending: false)
-        .orderBy('serverTimeStamp', descending: true)
-     .snapshots();
+        .orderBy('serverTimeStamp', descending: true);
+    // .snapshots();
 
     // return Firestore.instance.collection('events').startAt(queryList).snapshots();
   }
@@ -759,7 +1027,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
     // });
 
     return Padding(
-      padding: const EdgeInsets.only(left: 12.0, top: 10, bottom: 10),
+      padding: const EdgeInsets.only(left: 12.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -777,7 +1045,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
                   : Container(),
 
               Text(
-                length > 9 && length < 11 ? '+9' : '$length',
+                length > 9 && length < 11 ? '+9' : '+$length',
                 // '${Firestore.instance.collection('lostAndFoundPage').snapshots().length}',
                 style: TextStyle(
                   fontSize: 18.0,
@@ -802,7 +1070,21 @@ class _MyEventsPageState extends State<MyEventsPage> {
               ),
             ],
           ),
+          IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: () async {
+                await reloadP2PList();
 
+                Fluttertoast.showToast(
+                  msg: "Reloaded",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIos: 1,
+                  backgroundColor: Colors.black,
+                  textColor: Colors.white,
+                  fontSize: 16.0,
+                );
+              })
 
 
         ],
@@ -1063,4 +1345,56 @@ class _MyEventsPageState extends State<MyEventsPage> {
     );
   }
 
+  var locationQuery = '';
+  var locationController = TextEditingController();
+  getCurrentLocationTemplate(length) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Align(alignment: Alignment.topLeft, child: Text('Current Location: ')),
+        // SizedBox(
+        //   height: 10.0,
+        // ),
+        Text(
+          this.userInstituteLocation,
+          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(
+          height: 15.0,
+        ),
+
+        TextField(
+          controller: locationController,
+          onChanged: (enteredLocation) {
+            setState(() {
+              this.locationQuery =
+              // locationController.text == '' ? ''
+              // :
+              enteredLocation;
+            });
+            print('locatinQuery = $locationQuery');
+          },
+          decoration: InputDecoration(hintText: "Search Institute Location"),
+        ),
+        // Container(height: 1.0, color: Colors.black),
+        SizedBox(
+          height: 15.0,
+        ),
+        Text(
+          '(Type first few letters & press enter)',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(
+          height: 5.0,
+        ),
+
+        Text(locationController.text == ''
+            ? 'Total Institutes: $length'
+            : 'search result: $length')
+        // Text('$length result(s)'),
+      ],
+    );
+  }
 }
