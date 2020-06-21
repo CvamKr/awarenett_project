@@ -203,7 +203,9 @@ class _MyEventsPageState extends State<MyEventsPage> {
 
             eventTypeSelected == 'searchQuery'
                 ? loadSearchList()
-                : loadEventsListt(),
+                :
+//            loadEventsListt(),
+          loadEventsList()
           ],
         ),
       ),
@@ -622,7 +624,8 @@ class _MyEventsPageState extends State<MyEventsPage> {
         .collection('events')
         .where('userInstituteLocation', isEqualTo: userInstituteLocation)
         .where('eventType', isEqualTo: eventTypeSelected)
-        .orderBy('serverTimeStamp', descending: true);
+        .orderBy('serverTimeStamp', descending: true)
+        .snapshots();
   }
 
   Widget loadEventsList() {
@@ -818,8 +821,8 @@ class _MyEventsPageState extends State<MyEventsPage> {
         .where('userInstituteLocation', isEqualTo: userInstituteLocation)
     // .orderBy('eventSearchQuery', descending: false)
     // .orderBy('userInstituteLocation', descending: false)
-        .orderBy('serverTimeStamp', descending: true);
-    // .snapshots();
+        .orderBy('serverTimeStamp', descending: true)
+     .snapshots();
 
     // return Firestore.instance.collection('events').startAt(queryList).snapshots();
   }
@@ -827,7 +830,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
   Widget totalEventsCountTemplate(BuildContext context, int length) {
 
     return Padding(
-      padding: const EdgeInsets.only(left: 12.0),
+      padding: const EdgeInsets.only(left: 12.0, top : 5, bottom: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -840,7 +843,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
                   : Container(),
 
               Text(
-                length > 9 && length < 11 ? '+9' : '+$length',
+                length > 9 && length < 11 ? '+9' : '$length',
                 style: TextStyle(
                   fontSize: 18.0,
                   color: Colors.black,
@@ -856,21 +859,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
               ),
             ],
           ),
-          IconButton(
-              icon: Icon(Icons.refresh),
-              onPressed: () async {
-                await reloadP2PList();
 
-                Fluttertoast.showToast(
-                  msg: "Reloaded",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIos: 1,
-                  backgroundColor: Colors.black,
-                  textColor: Colors.white,
-                  fontSize: 16.0,
-                );
-              })
 
 
         ],
