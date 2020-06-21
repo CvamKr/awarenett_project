@@ -123,7 +123,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
                 width:
                 MediaQuery.of(context).size.width-170,
 
-                child: Text('Manipal Institute of Technology',
+                child: Text(this.userInstituteLocation,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
                 style: TextStyle(
