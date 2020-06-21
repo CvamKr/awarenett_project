@@ -18,7 +18,6 @@ class MyEventsPage extends StatefulWidget {
 }
 
 class _MyEventsPageState extends State<MyEventsPage> {
-  // widget.currentInstitutionName = '';
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   int totalEventsCount = 0;
@@ -44,10 +43,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
           profileDataSnap.data['userInstituteLocation'];
           this.userName = profileDataSnap.data['userName'];
         });
-//        if(mounted){
-//          getEventsData();
-//
-//        }
         getEventsData();
       } else {
         print('profile data does not exist');
@@ -62,7 +57,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
 
     _scrollController = ScrollController();
 
-    // this.widget.currentInstitutionName = '';
     try {
       FirebaseAuth.instance.currentUser().then((onlineUser) {
         setState(() {
@@ -81,10 +75,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
       double currentScroll = _scrollController.position.pixels;
       double delta = MediaQuery.of(context).size.height * 0.25;
       if (maxScroll - currentScroll <= delta) {
-//        if(mounted){
-//          getEventsData();
-//
-//        }
+
         getEventsData();
       }
       // }
@@ -100,16 +91,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
 
     super.dispose();
   }
-
-  // bool _isOnTop = true;
-
-  _scrollToTop() {
-    _scrollController.animateTo(_scrollController.position.minScrollExtent,
-        duration: Duration(milliseconds: 1000), curve: Curves.easeIn);
-    // setState(() => _isOnTop = true);
-  }
-
-  List list = ['logout'];
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +121,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
               padding: const EdgeInsets.only(top:4.0, left: 2),
               child: Container(
                 width:
-//                200,
                 MediaQuery.of(context).size.width-170,
 
                 child: Text('Manipal Institute of Technology',
@@ -182,14 +162,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
           )
         ],
       ),
-      // backgroundColor:
-      //  Colors.white,
-      // Colors.grey[50],
-      // Colors.teal[50],
-      // Colors.blue[50].
-      // withOpacity(.6),
-      // Colors.blue[100].withOpacity(.2),
-      // appBar: AppBar(
 
       body: Padding(
         padding: const EdgeInsets.only(bottom: 0.0),
@@ -205,38 +177,9 @@ class _MyEventsPageState extends State<MyEventsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                    // color: Colors.blue[400].withOpacity(.8),
-                    decoration: BoxDecoration(
-                      // color:
-                      // Colors.grey[100],
-                      // Colors.white,
-                      //  Colors.blue[100]
-                      //  .withOpacity(.2),
-                      // Colors.blue[50],
-                      // Colors.teal[100],
-                      // use here Colors.white, and in the scaffold-> backgroundColor: Colors.blueGrey[50],
-                      // borderRadius: new BorderRadius.only(
-                      //   // topLeft: new Radius.circular(20.0),
-                      //   //topRight: new Radius.circular(20.0),
-                      //   //bottomRight: new Radius.circular(20.0),
-                      //   bottomLeft: new Radius.circular(30.0),
-                      // ),
-                      //
-                    ),
                     child: Column(
                     children: <Widget>[
                         SizedBox(height: 5.0),
-                        // Align(
-                        //   alignment: Alignment.topLeft,
-                        //   child: Padding(
-                        //     padding:
-                        //         const EdgeInsets.symmetric(horizontal: 12.0),
-                        //     child: Text(
-                        //       'Sort Events',
-                        //       style: TextStyle(fontSize: 16.0),
-                        //     ),
-                        //   ),
-                        // ),
 
                         SizedBox(
                           height: 5.0,
@@ -257,36 +200,10 @@ class _MyEventsPageState extends State<MyEventsPage> {
             SizedBox(
               height: 5.0,
             ),
-            // Align(
-            //   alignment: Alignment.centerRight,
-            //   child: FlatButton(
-            //       onPressed: () {
-            //         // showBottomSheet(context);
-            //         // buildSuggestionBox(context);
-            //         _showDialog();
-            //       },
-            //       child: Text(
-            //         "drop a suggestion!",
-            //         style: TextStyle(
-            //           color: Colors.blue,
-            //           fontStyle: FontStyle.italic,
-            //         ),
-            //       )),
-            // ),
 
             eventTypeSelected == 'searchQuery'
                 ? loadSearchList()
                 : loadEventsListt(),
-
-            // loadEventsList(),
-
-            // _buildLostAndFoundTemplate(),
-            // SizedBox(height: 7.0),
-            // _buildLostAndFoundTemplate(),
-            // SizedBox(height: 7.0),
-            // _buildLostAndFoundTemplate(),
-            // SizedBox(height: 7.0),
-            // _buildLostAndFoundTemplate(),
           ],
         ),
       ),
@@ -298,40 +215,26 @@ class _MyEventsPageState extends State<MyEventsPage> {
         )),
         child: Icon(Icons.add, size: 30,),
       ),
-
-      // _getEventsList(),
     );
   }
 
   Future reloadP2PList() async {
-    setState(() {
-      // isLoading = true;
-      // if (giaTypeSelected != 'searchQuery') {
+    setState(() { 
       hasMore = true;
       products.clear();
       lastDocument = null;
 
-//      if(mounted){
-//        getEventsData();
-//        loadEventsListt();
-//
-//      }
-
       getEventsData();
       loadEventsListt();
-
-      // }
     });
   }
 
   loadSearchList() {
-    // reloadP2PList();
     return StreamBuilder<QuerySnapshot>(
       stream: eventColRef
           .where('userInstituteLocation', isEqualTo: this.userInstituteLocation)
           .where('eventSearchQuery',
           arrayContains: enteredSearchQuery.toLowerCase())
-      // .orderBy('itemSearchQuery')
           .orderBy('serverTimeStamp', descending: true)
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -371,13 +274,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
 //                  print('Snap length $totalEventsCount');
                   return _buildEventCard(docSnap);
                 }
-
-                // return ListTile(
-                //   contentPadding: EdgeInsets.all(5),
-                //   title: Text(products[index].data['itemName']),
-                //   subtitle: Text(
-                //       '${products[index].data['userName']} ${products.length}'),
-                // );
               },
             ),
           ),
@@ -391,12 +287,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
   bool isClicked = false;
   bool isShowDescriptionClicked = false;
   Widget _buildEventCard(doc) {
-    // bool isClicked = false;
-    // bool isClicked = false;
-
-    //  handleClick(){
-    //    isClicked = (isClicked == true) ? false : true;
-    // }
 
     return Padding(
         padding: EdgeInsets.only(top: 15, left: 10, right: 10),
@@ -423,12 +313,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
                   //image
                   duration: Duration(seconds: 2),
                   curve: Curves.easeOutSine,
-                  // child: Image(
-                  //   image: AssetImage(imgpath),
-                  //   height: isClicked? 300 : 125,
-                  //   width: MediaQuery.of(context).size.width,
-                  //   fit: BoxFit.cover,
-                  // )
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
@@ -436,10 +320,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
                     child: getImage(doc),
                   ),
                 ),
-                // SizedBox(
-                //   height: 5,
-                // ),
-                //doneTag.getDoneTag(doc),
                 Padding(
                   padding: const EdgeInsets.only(
                       top: 8.0, left: 15.0, right: 14.0, bottom: 0.0),
@@ -452,24 +332,10 @@ class _MyEventsPageState extends State<MyEventsPage> {
                               '${doc['eventName']}',
                               style: TextStyle(
                                 fontSize: 16.0,
-                                // fontWeight: FontWeight.bold,
                               ),
                             ),
                           )),
                       SizedBox(width: 16.0),
-                      // Expanded(
-                      //   child: Align(
-                      //     alignment: Alignment.centerRight,
-                      //     child: Container(
-                      //       // color: Colors.green,
-                      //       child: Text(
-                      //         doc['club_organiserName'] == null
-                      //             ? ''
-                      //             : '${doc['club_organiserName']}',
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                       InkWell(
                         onTap: () {
                           // dialogs.showReportDialog(
@@ -555,10 +421,8 @@ class _MyEventsPageState extends State<MyEventsPage> {
                                 if (contactNo == null || contactNo == '') {
                                   final snackBar = SnackBar(content: Text('No contact number provided by the organiser.'));
 
-// Find the Scaffold in the widget tree and use it to show a SnackBar.
                                   _scaffoldKey.currentState.showSnackBar(snackBar);
-//Scaffold.of(context).showSnackBar(snackBar);
-                                  // showDialog();
+
                                   return;
                                 }
                                 launch("tel:$contactNo");
@@ -676,8 +540,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
         height: 60.0,
         width: MediaQuery.of(context).size.width,
         child: ListView(
-          // padding: EdgeInsets.all(10.0),
-          // shrinkWrap: true,
           physics: ClampingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           children: <Widget>[
@@ -738,7 +600,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
         child: Chip(
           backgroundColor: eventTypeSelected == clickedEventType
               ?
-          // Colors.blue
           Colors.black
 
               : Colors.black54.withOpacity(0.13),
@@ -748,13 +609,10 @@ class _MyEventsPageState extends State<MyEventsPage> {
                 color: eventTypeSelected == clickedEventType
                     ? Colors.white
                     : Colors.black,
-              // Colors.blue[400],
-              //  Colors.blue,
             ),
           ),
         ),
       ),
-      // ),
     );
   }
 
@@ -765,13 +623,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
         .where('userInstituteLocation', isEqualTo: userInstituteLocation)
         .where('eventType', isEqualTo: eventTypeSelected)
         .orderBy('serverTimeStamp', descending: true);
-    // .snapshots();
-
-    //   .listen((query){
-    // print('query on $giaType done. ${query.documents.length} $giaType');
-    //   });
-    //   .then((QuerySnapshot querySnapshot) {
-    // print('query on $giaType done. ${querySnapshot.documents.length} $giaType');
   }
 
   Widget loadEventsList() {
@@ -795,11 +646,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
 
       child: StreamBuilder<QuerySnapshot>(
         stream: stream,
-        // searchQuery(),
-
-        //  eventTypeSelected == 'All'
-        //     ? Firestore.instance.collection('events').snapshots()
-        //     : queryEvents(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
             print('event snap has data');
@@ -905,17 +751,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
           .limit(documentLimit)
           .getDocuments();
 
-      // print('userInstituteLocation: ${this.userInstituteLocation}');
-      // querySnapshot = await firestore
-      //     .collection('p2pNetwork')
-      //     .where('userInstituteLocation', isEqualTo: this.userInstituteLocation)
-      //     // .orderBy('userInstituteLocation', descending: true)
-      //     .orderBy('serverTimeStamp', descending: true)
-      //     // .orderBy('userInstituteLocation')
-      //     // .startAfterDocument(lastDocument)
-      //     .limit(documentLimit)
-      //     .getDocuments();
-
       print(1);
     }
     if (querySnapshot.documents.length < documentLimit) {
@@ -941,24 +776,9 @@ class _MyEventsPageState extends State<MyEventsPage> {
       padding: const EdgeInsets.all(0.0),
       child: Container(
         decoration: BoxDecoration(
-          // color:
-          //  Colors.blue[50],
-          // Colors.teal[50],
-          // Colors.white,
-          // Colors.blueGrey[100].withOpacity(0.1),
-          // giaListCardColor,
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: Colors.black.withOpacity(.12),
-          //     offset: Offset(0, 10),
-          //     blurRadius: 30,
-          //   )
-          // ],
           borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0)),
         ),
         child: Container(
-          // width: 200.0,
-          // height: 400.0,
           child: ListView.builder(
             physics: ClampingScrollPhysics(),
             //  controller: _scrollController,
@@ -1005,39 +825,14 @@ class _MyEventsPageState extends State<MyEventsPage> {
   }
 
   Widget totalEventsCountTemplate(BuildContext context, int length) {
-    // print('Total events $length');
-
-    // var giaTypee;
-    // if (giaType == 'All' || giaType == 'others') {
-    //   giaTypee = 'item(s)';
-    // } else if (giaType == 'Item Or Contribution Request') {
-    //   giaTypee = 'Request(s)';
-    // } else {
-    //   giaTypee = giaType;
-    // }
-
-    //   var lengthh;
-    //     // print('lengthh $lengthh');
-
-    // Future.delayed(Duration(seconds: 3)).then((onValue) {
-    //   setState(() {
-    //     lengthh = length;
-    //     print('lengthh $lengthh');
-    //   });
-    // });
 
     return Padding(
       padding: const EdgeInsets.only(left: 12.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          // Icon(Icons.event),
-          // SizedBox(width: 8.0 ,),
           Row(
             children: <Widget>[
-              // lengthh == null
-              //     ? Center(child: CircularProgressIndicator())
-              //     :
 
               searchEventController.text.length >= 0 &&
                   eventTypeSelected == 'searchQuery'
@@ -1046,26 +841,17 @@ class _MyEventsPageState extends State<MyEventsPage> {
 
               Text(
                 length > 9 && length < 11 ? '+9' : '+$length',
-                // '${Firestore.instance.collection('lostAndFoundPage').snapshots().length}',
                 style: TextStyle(
                   fontSize: 18.0,
                   color: Colors.black,
-                  // Colors.white,
-                  // textColor,
-                  // fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(width: 7.0),
               Text(
                 'Events ',
-                // '${Firestore.instance.collection('lostAndFoundPage').snapshots().length}',
                 style: TextStyle(
                   fontSize: 18.0,
                   color: Colors.black,
-                  // Colors.white,
-                  // textColor,
-
-                  // fontWeight: FontWeight.bold,
                 ),
               ),
             ],
@@ -1111,10 +897,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
           return Container(
             child: new Wrap(
               children: <Widget>[
-                // new ListTile(
-                //     leading: new Icon(Icons.update),
-                //     title: new Text('Update'),
-                //     onTap: () => {}),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -1122,45 +904,10 @@ class _MyEventsPageState extends State<MyEventsPage> {
                     children: <Widget>[
                       Text(
                         features,
-                        // 'Upcoming features...',
                         style: TextStyle(
-                          // fontWeight: FontWeight.bold,
                           fontSize: 16.0,
                         ),
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   child: Text(
-                      //       '- sort Events by Time eg (this hour, today, tommorrow...)'),
-                      // ),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   child: Text('- improved User Interface.'),
-                      // ),
-                      // Text('Got suggestion for us?!',
-                      //     style: TextStyle(
-                      //         fontWeight: FontWeight.bold, fontSize: 16.0)),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: <Widget>[
-                      //     Expanded(
-                      //       flex: 4,
-                      //       child: TextField(
-                      //         onChanged: (inputValue){
-
-                      //         },
-                      //         decoration: InputDecoration(
-                      //             hintText: 'Write your suggestion'),
-                      //       ),
-                      //     ),
-                      //     Expanded(
-                      //         flex: 1,
-                      //         child: IconButton(
-                      //           icon: Icon(Icons.send),
-                      //           onPressed: () {},
-                      //         ))
-                      //   ],
-                      // ),
                       SizedBox(
                         height: 16.0,
                       ),
@@ -1172,9 +919,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
           );
         });
   }
-
-  // var imageContainerHeight = 100.0;
-
 
 
   openLink(String eventLink) async {
@@ -1213,11 +957,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
           }
 
           isImageExpanded = isImageExpanded ? false : true;
-          // if (isImageExpanded == false) {
-          //   this.isImageExpanded = true;
-          // } else {
-          //   this.isImageExpanded = false;
-          // }
         });
       },
       child: AnimatedContainer(
@@ -1297,19 +1036,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
                 Colors.transparent,
                 style: BorderStyle.solid,
                 width: 0.75),
-
-//            boxShadow: [
-//              BoxShadow(
-//                color: Colors.black.withOpacity(.15),
-//                offset: Offset(0, 10),
-//                blurRadius: 8,
-//              )
-//            ],
           ),
-
-          // child: Row(
-          //   children : <Widget>[
-          //     Icon(Icons.search),
 
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18.0),
@@ -1325,18 +1052,12 @@ class _MyEventsPageState extends State<MyEventsPage> {
                   this.enteredSearchQuery = enteredSearchQuery;
                 });
               },
-              // controller: lnfSearchController,
-              // keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 focusColor: Colors.indigo[50],
                 hintText: "Search Events...",
                 hintStyle: TextStyle(color: Colors.grey),
-                // labelText: "Search Events",
-                // hintText: "Search for lost or found items e.g. wallet",
                 border: InputBorder.none,
                 fillColor: Colors.blue[50],
-                // border: OutlineInputBorder(
-                //     borderRadius: BorderRadius.circular(4.0)),
               ),
             ),
           ),

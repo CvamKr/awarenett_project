@@ -15,12 +15,6 @@ class ChooseInstitutionDdPage extends StatefulWidget {
 }
 
 class _ChooseInstitutionDdPageState extends State<ChooseInstitutionDdPage> {
-  // var institutionName = [
-  //   'Mit Manipal',
-  //   'Kmc Manipal',
-  //   'Soc Manipal',
-  //   'Doc Manipal',
-  // ];
   String currentInstitutionSelected = "Select Location";
   String userPhoneNo = '';
 
@@ -257,11 +251,7 @@ class _ChooseInstitutionDdPageState extends State<ChooseInstitutionDdPage> {
                 'Select your Institute location',
                 style: TextStyle(fontSize: 20.0),
               ),
-              // SizedBox(
-              //   height: 10.0,
-              // ),
-              // getInstitutionDropDown(),
-              // getInstitutionDropDown2(),
+              
               FlatButton(
                 onPressed: () {
                   openInstitutionDialogBox();

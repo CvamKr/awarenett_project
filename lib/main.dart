@@ -38,12 +38,7 @@ class _MyAppState extends State<MyApp> {
               .indigoAccent //color of the arc that is made when top/bottom of the list is pulled //down/up
           ),
       home:
-//      ChooseInstitutionDdPage(),
-//      MyPhoneLoginPage(),
-//        MyYozznetLogo(),
-    // );
-    // ChooseInstitutionDdPage()
-           CheckUserWidget()
+          CheckUserWidget()
            );
   }
 }
