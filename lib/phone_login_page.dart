@@ -25,9 +25,9 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        //paste here
+       
         backgroundColor:
-            // Colors.deepPurpleAccent[200].withOpacity(1),
+        
             Colors.teal,
         body: SingleChildScrollView(
           child: Container(
@@ -44,19 +44,8 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
                         Colors.transparent
                       ])),
                 ),
-
-                // Positioned(
-                //   top: 70,
-                //   left: (MediaQuery.of(context).size.width / 2) - 45,
-                //   child: Text("Login Here", style: TextStyle(
-                //     color: Colors.white,
-                //     fontWeight: FontWeight.w700,
-                //     fontSize: 20
-                //   ),),
-                // ),
-
                 Positioned(
-                    top: 65,
+                    top: 85,
                     child: Padding(
                         padding: EdgeInsets.only(top: 120),
                         child: Container(
@@ -66,49 +55,37 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
                             color: Colors.black.withOpacity(0.75),
                             // Colors.white,
                             borderRadius:
-                                BorderRadius.only(topLeft: Radius.circular(30)),
+                                BorderRadius.only(topRight: Radius.circular(60)),
                           ),
                         ))),
 
                 Positioned(
                     top: 135,
-                    left: 20,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    left: 10,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
+                        Container(
+                         width: 10,
+                         height: 55,
+                         color: Colors.white,
+                        ),
+                        SizedBox(width: 10,),
                         Text(
-                          "Yozznet",
+                          "Awarenett",
                           style: TextStyle(
                               fontSize: 45,
                               fontWeight: FontWeight.w700,
                               color: Colors.white),
                         ),
-                        Text(
-                          "Enriching your college experience.",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white),
-                        )
                       ],
                     )),
-//                     Positioned(
-//                    top: 160,
-//                    left: 20,
-//                    child: Text(
-//                      "Enriching College Experience",
-//                      style: TextStyle(
-//                          fontSize: 18,
-//                          fontWeight: FontWeight.w700,
-//                          color: Colors.white),
-//                    )),
 
                 Positioned(
-                  top: 250,
+                  top: 280,
                   child: Container(
-                    //color: Colors.orange,
                     height: 250,
                     width: MediaQuery.of(context).size.width,
                     child: Padding(
@@ -120,14 +97,14 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
                           ),
                           Padding(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 5.0),
+                                const EdgeInsets.symmetric(horizontal: 15.0),
                             child: Container(
                               height: 50,
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.3),
                                   // Colors.black,
-                                  borderRadius: BorderRadius.circular(30)),
+                                  borderRadius: BorderRadius.circular(10)),
                               child: Padding(
                                   padding: EdgeInsets.only(left: 75),
                                   child: TextField(
@@ -176,14 +153,14 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
                                   },
                                   child: Padding(
                                       padding:
-                                          EdgeInsets.symmetric(horizontal: 5),
+                                          EdgeInsets.symmetric(horizontal: 15,vertical: 10),
                                       child: Container(
                                           height: 50,
                                           width:
                                               MediaQuery.of(context).size.width,
                                           decoration: BoxDecoration(
                                               borderRadius:
-                                                  BorderRadius.circular(30),
+                                                  BorderRadius.circular(10),
                                               color: Colors.white),
                                           child: Center(
                                               child: Text(
@@ -195,53 +172,13 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
                                           )))),
                                 ),
                           SizedBox(height: 20.0),
-                          Center(
-                            child: InkWell(
-                              onTap: () {
-                                openPrivacyPolicyLinkDoc();
-                              },
-                              child: RichText(
-                                text: TextSpan(
-                                    text: "By logging in you agree to our ",
-                                    style: TextStyle(
-                                      fontSize: 15.0,
-                                      color: Colors.white,
-                                      // fontWeight: FontWeight.bold
-                                    ),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: "privacy policy.",
-                                        style: TextStyle(
-                                            color: Colors.blue,
-                                            fontStyle: FontStyle.italic),
-                                      ),
-                                    ]),
-                              ),
-                            ),
-
-                            //                            Text(
-                            //                              "By logging in you agree to our privacy policy.",
-                            //                              style: TextStyle(
-                            //                                  color: Colors.white.withOpacity(0.65),
-                            //                                  fontWeight: FontWeight.w800),
-                            //                            ),
-                          ),
                         ],
                       ),
                     ),
                   ),
                 ),
 
-                Positioned(
-                  bottom: 20,
-                  left: 130,
-                  child: Text(
-                    ".crafted with passion.",
-                    style: TextStyle(
-                        color: Colors.white.withOpacity(0.65),
-                        fontWeight: FontWeight.w800),
-                  ),
-                )
+           
               ])),
         ));
   }
@@ -270,25 +207,18 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
 
     final PhoneVerificationCompleted verificationCompleted =
         (AuthCredential _authCredential) {
-      // setState(() {
-      //   this._aauthCredential = _authCredential;
-      // });
       debugPrint('verified');
-
-      // String nowUser = null;
 
       _auth.signInWithCredential(_authCredential).then((AuthResult value) {
         if (value.user != null) {
           setState(() {
             debugPrint('Auth successful');
             debugPrint('user id after auth success ${value.user.uid}');
-
-            // status = 'Authentication successful';
           });
           onAuthenticationSuccessful(value.user);
         } else {
           setState(() {
-            // status = 'Invalid code/invalid authentication';
+           
           });
         }
       }).catchError((e) {
@@ -335,21 +265,6 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
   var otpController = TextEditingController();
   smsOtpDialog(BuildContext context) {
     return
-        //  this.autoRetrivedTimeOut == false
-        //     ? showDialog(
-        //         context: context,
-        //         barrierDismissible: false,
-        //         builder: (BuildContext context) {
-        //           return new AlertDialog(
-        //               // title: Text('Enter Otpp'),
-        //               content: Row(
-        //                 children: <Widget>[
-        //                   CircularProgressIndicator(), Spacer(),
-        //                   Text('Auto retrieving Otp..'),
-        //                 ],
-        //               ));
-        //         })
-        //     :
         showDialog(
       context: context,
       barrierDismissible: false,
@@ -359,11 +274,6 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
           content: TextField(
             controller: otpController,
             keyboardType: TextInputType.number,
-            // onChanged: (enteredCode) {
-            //   setState(() {
-            //     this.smsOtp = enteredCode;
-            //   });
-            // },
           ),
           contentPadding: EdgeInsets.all(8.0),
           actions: <Widget>[
@@ -381,14 +291,8 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
                   });
                 }
                 print('opt dialog done clickedd');
-                // Navigator.pop(context);
+               
                 if (user != null) {
-                  // setState(() {
-                  //   debugPrint('Auth successful');
-                  //   debugPrint('user id after auth success ${user.uid}');
-
-                  //   // status = 'Authentication successful';
-                  // });
                   Navigator.pop(context);
 
                   onAuthenticationSuccessful(user);
@@ -397,26 +301,6 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
                   signIn();
                 }
 
-                // _auth
-                //     .signInWithCredential(_aauthCredential)
-                //     .then((AuthResult value) {
-                //   if (value.user != null) {
-                //     setState(() {
-                //       debugPrint('Auth successful');
-                //       debugPrint(
-                //           'user id after auth success ${value.user.uid}');
-
-                //       // status = 'Authentication successful';
-                //     });
-                //     onAuthenticationSuccessful(value.user);
-                //     Navigator.pop(context);
-                //   } else {
-                //     Navigator.pop(context);
-                //     signIn();
-                //   }
-                // }).catchError((e) {
-                //   print(e.toString());
-                // });
               },
             ),
           ],
@@ -440,7 +324,6 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
       onAuthenticationSuccessful(currentUser);
     } catch (e) {
       print(e.toString());
-      // handleError(e);
     }
   }
 
@@ -464,9 +347,6 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
         });
         Navigator.pop(context);
 
-        // smsOtpDialog(context).then((value) {
-        //   print('sign in');
-        // });
         break;
       default:
         setState(() {
@@ -496,7 +376,6 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
             context,
             MaterialPageRoute(builder: (context) =>
                 MyEventsPage()),
-//                MyHomePage()),
           );
         }
       }).catchError((e) {
@@ -508,14 +387,4 @@ class _MyPhoneLoginPageState extends State<MyPhoneLoginPage> {
     }
   }
 
-  void openPrivacyPolicyLinkDoc() async {
-    var privacyPolicyLinkDoc = 'https://docs.google.com/document/d/1f8eJ3zNVX3M10nTKhA3q0HF-CeV2nnaUbYrb7saLsS4/edit?usp=drivesdk';
-    if (await launch(privacyPolicyLinkDoc)) {
-      debugPrint("launching");
-      await launch(privacyPolicyLinkDoc);
-    } else {
-      //throw 'Could not launch $url';
-      debugPrint("can't launch");
-    }
-  }
 }
