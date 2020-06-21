@@ -105,20 +105,6 @@ class _ChooseInstitutionDdPageState extends State<ChooseInstitutionDdPage> {
                           child: getCurrentLocationTemplate(length),
                         );
                       }
-                      else if(index == length + 1){
-                        return  InkWell(
-                          onTap: () {
-                            openFillInstituteGoogleForm();
-                          },
-                          child: Column(
-                            children: <Widget>[
-                              SizedBox(height: 10,),
-                              Text("Didn't find your college?", style: TextStyle(fontWeight: FontWeight.bold)),
-                              Text(" Let us know.", style: TextStyle(color: Colors.blue),),
-                            ],
-                          )
-                        );
-                      }
                       else {
                         DocumentSnapshot institutionNameDoc =
                             snapshot.data.documents[index - 1];
@@ -401,16 +387,5 @@ class _ChooseInstitutionDdPageState extends State<ChooseInstitutionDdPage> {
     }).catchError((e) {
       print(e.toString());
     });
-  }
-
-  void openFillInstituteGoogleForm() async {
-    var fillInstituteGFormLink = 'https://forms.gle/f31QHkfLPtYq5Got7';
-    if (await launch(fillInstituteGFormLink)) {
-    debugPrint("launching");
-    await launch(fillInstituteGFormLink);
-    } else {
-    //throw 'Could not launch $url';
-    debugPrint("can't launch");
-    }
   }
 }
