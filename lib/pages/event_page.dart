@@ -1334,10 +1334,12 @@ class _MyEventsPageState extends State<MyEventsPage> {
             // color: Colors.blueGrey[100].withOpacity(.5),
             // Colors.grey[200],
             //use here Colors.white, and in the scaffold-> backgroundColor: Colors.blueGrey[50],
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(15),
 
             border: Border.all(
-                color: Colors.transparent,
+                color:
+//                Colors.black,
+                Colors.transparent,
                 style: BorderStyle.solid,
                 width: 0.75),
 
